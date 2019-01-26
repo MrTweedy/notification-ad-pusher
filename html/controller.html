@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #sendStatus{
+      height:50vh;
+      overflow:auto;
+      border:1px solid gray;
+    }
+    button{
+      cursor:pointer;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+  <script>
+    const endpoint = '/'
+    var goData;
+    var getClock = null;
+    var waiting = false;
+    function init(){
+      setClock()
+      $("#goButton").click(function(){
+        setClock();
+        var mode = $("#mode").val()
+        var prop = $("#prop").val()
+        console.log(endpoint + "send?prop=" + prop + "&mode=" + mode)
+        fetch(endpoint + "send?prop=" + prop + "&mode=" + mode, {credentials: 'include'});
+      });
+      $("#abortButton").click(function(){
+        setClock();
+        fetch(endpoint + "abort", {credentials: 'include'});
+      });
+    }
+    function setClock(){
+      if(getClock === null){
+        getClock = setInterval(function(){
+          fetch(endpoint + 'monitor', {credentials: 'include'})
+          .then( res => res.json() )
+          .then( json => {
+            goData = JSON.parse(json)
+            if(goData.message == "PAUSE"){
+              clearInterval(getClock);
+              getClock = null;
+            } else if(goData.message == "WAIT" || goData.message == "") {
+              if(goData.message == "WAIT"){
+                if(!waiting){
+                  waiting = true;
+                  $("#sendStatus").append("<p class='waiter'>.</p>");
+                } else {
+                  $(".waiter:last-of-type").append(" .");
+                }
+              }
+            } else {
+              waiting = false;
+              $("#sendStatus").append("<p>" + goData.message + "</p>");
+            }
+          });
+        }, 1000);
+      }
+    }
+  </script>
+
+</head>
+<body>
+  <div id="sendStatus">
+  </div>
+  <label for="mode">Mode: </label>
+  <select id="mode" name="mode">
+    <option value="getThenSend">Get data, then send ads</option>
+    <option value="getData">Get data</option>
+    <option value="sendAds">Send ads</option>
+  </select>
+  <br>
+  <label for="prop">Property: </label>
+  <select id="prop" name="prop">
+    <option value="Prop1">Prop1</option>
+    <option value="Prop2">Prop2</option>
+  </select>
+  <br>
+  <button id="goButton">Go</button>
+  <br>
+  <button id="abortButton">Abort</button>
+  <script>
+    init();
+  </script>
+</body>
+</html>

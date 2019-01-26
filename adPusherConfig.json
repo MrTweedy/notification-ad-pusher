@@ -1,0 +1,28 @@
+{
+  "common" : {
+    "OS_csv_endpoint" : "https://onesignal.com/api/v1/players/csv_export",
+    "OS_ad_endpoint" : "https://onesignal.com/api/v1/notifications",
+    "PI_stripe_endpoint" : "https://api.rs-stripe.com/stripe/content?",
+    "cs_esp" : "powerinbox_web",
+    "cs_containertype" : "web",
+    "CSV_file_location" : "/",
+    "database_credentials" : "root:root@tcp(localhost:8889)/OneSignal",
+    "localhost" : ":8080",
+    "serverRoot" : "/",
+    "send_threads": "10"
+  },
+  "Prop1" : {
+    "OS_APIKey" : "*****************",
+    "OS_AppID" : "********************",
+    "cs_stripeid" : "*****",
+    "cs_token" : "**************",
+    "cs_page" : "*******************"
+  },
+  "Prop2" : {
+    "OS_APIKey" : "*****************",
+    "OS_AppID" : "********************",
+    "cs_stripeid" : "*****",
+    "cs_token" : "**************",
+    "cs_page" : "*******************"
+  }
+}
