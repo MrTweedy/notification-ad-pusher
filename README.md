@@ -5,7 +5,7 @@ This is an ad hoc application for sending push notifications containing advertis
 
 The app first contacts a push notification service to get a list of subscribers. This list is saved in a database.
 
-The app then contacts an ad vendor to retreive a unique ad for each user. After receipt, each ad is then formatted and sent to the notification service. Form there, it goes out to the users.
+The app then contacts an ad vendor to request a unique ad for each user. After receipt, each ad is then formatted and sent to the notification service. Form there, it goes out to the users.
 
 Each successful push is recorded in the database so that if the process is interupted, it can be re-started without risk of sending duplicate ads to subscribers who have already gotten one. Each _unseccessful_ push is also recorded, and these are automatically retried.
 
